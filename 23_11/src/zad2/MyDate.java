@@ -80,7 +80,8 @@ public class MyDate {
 	
 	public static boolean isValidDate(int year, int month, int day){
 		if (month<1 || month >12) return false;
-		if (day<1||(isLeapYear(year)==true && month==2&&day>=29)||day>daysInMonths[month-1]) return false;
+		if(isLeapYear(year)==true && month==2&&day<=29&&day>0) return true;
+		if (day<1||day>daysInMonths[month-1]) return false;
 		return true;
 	}
 	
@@ -101,6 +102,18 @@ public class MyDate {
 		return this;
 	}
 	
+	public MyDate nextDay2(){
+		int day=this.day;
+		int month = this.month;
+		int year=this.year;
+		if(isLeapYear(year)==true&&this.day==28&&this.month==2) return new MyDate(year,month,29);
+		else if(isLeapYear(year)==true&&this.day==29&&this.month==2) return new MyDate(year,month+1,1);
+		day = day==daysInMonths[this.month-1] ? 1:++day;
+		month = day==1 ? (month=month==12?1:month+1):this.month;
+		year = month==1&&day==1 ? ++year : year;
+		return new MyDate(year,month,day);
+		
+	}
 	public MyDate nextMonth(){
 		if (this.month == 12) {
 			this.month = 1;
@@ -130,6 +143,7 @@ public class MyDate {
 			this.day--;
 		return this;
 	}
+	
 	
 	public MyDate prevMonth(){
 		if (this.month == 1) {
