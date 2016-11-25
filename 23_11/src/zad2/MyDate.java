@@ -113,6 +113,7 @@ public class MyDate {
 		year = month==1&&day==1 ? ++year : year;
 		return new MyDate(year,month,day);
 		
+		
 	}
 	public MyDate nextMonth(){
 		if (this.month == 12) {

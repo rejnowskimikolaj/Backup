@@ -26,5 +26,6 @@ public class Person {
 		return "Person[name="+name+",adress="+adress+"]";
 	}
 	
+	
 
 }
