@@ -14,7 +14,7 @@ public class Hybrid extends Bus implements LiquidFuel,Electric {
 
 	@Override
 	public int getEmissionTier() {
-		return 0;
+		return 2;
 	}
 
 	
