@@ -25,7 +25,6 @@ public class LengthChecker {
 				counter++;
 			}
 			arr = new String[counter];
-			System.out.println(counter);
 			counter=0;
 			
 			Scanner sc2 = new Scanner(f);

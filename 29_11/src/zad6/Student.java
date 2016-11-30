@@ -22,6 +22,26 @@ public class Student {
 		this.course = "Java programming";
 		this.averageMark = 4.5;
 	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getSecondName() {
+		return secondName;
+	}
+
+	public String getCourse() {
+		return course;
+	}
+
+	public double getAverageMark() {
+		return averageMark;
+	}
 	
 	
 	
