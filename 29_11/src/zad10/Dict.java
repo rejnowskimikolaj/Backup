@@ -98,6 +98,89 @@ public class Dict {
 		
 		readDict(dictName);
 		
+	}
+	
+	public String translateToEn(String polishWord){
+		 
+		
+		for(int i=0;i<dict.length;i++){
+			if (dict[i].getPolishWord().equals(polishWord)) return dict[i].getEnglishWord(); 
+		}
+		throw new IllegalArgumentException("nie ma takiego s³owa");
+	}
+	
+	public String translateToPl(String englishWord){
+		 
+		
+		for(int i=0;i<dict.length;i++){
+			if (dict[i].getEnglishWord().equals(englishWord)) return dict[i].getPolishWord(); 
+		}
+		throw new IllegalArgumentException("nie ma takiego s³owa");
+	}
+
+	public int getLine(String word){
+		
+		File f = new File(dictName);
+		int counter=-1;
+		Scanner sc;
+		try {
+			sc = new Scanner(f);
+			while(sc.hasNextLine()){
+				String[] line =sc.nextLine().split("\\s+");
+				counter++;
+				if(word.equals(line[0])||word.equals(line[1])) return counter ;
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return counter;
+	}
+	
+	
+	public Word[] getDictAfterDel(String word){
+		int line= getLine(word);
+		if (line==-1) throw new IllegalArgumentException("nie ma takiego s³owa");
+		Word[] result =new Word[dict.length-1];
+		int i=0;
+
+		for(Word x: dict){
+			if(i==line) break;
+			result[i]=dict[i];
+			i++;
+		}
+		
+		for (int j=line;j<result.length;j++){
+			result[j]=dict[j+1];
+		}
+		return result;
+	}
+	
+	public void deleteWord(String word){
+		File f2 = new File(dictName);
+		FileOutputStream fos;
+		FileOutputStream fos2;
+		Word[]newDict=getDictAfterDel(word);
+		try {
+			
+			fos = new FileOutputStream(f2);
+			fos2 = new FileOutputStream(f2);
+
+			PrintWriter pw = new PrintWriter(fos);
+			
+			pw.println();
+			pw.close();
+			PrintWriter pw2 = new PrintWriter(fos2,true);
+			for(Word x: newDict){
+				pw2.println(x.getPolishWord()+" "+x.getEnglishWord());
+			}
+			pw2.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 }
