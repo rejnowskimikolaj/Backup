@@ -16,8 +16,15 @@ public class app2 {
 //		String[]arr={"nowa linia 3","nowa linia 4"};
 //		io.updateLines(3, arr);
 //		System.out.println(io.readFileAsString());
-		io.scrolling();
+		//io.scrolling();
+		
+//		String[]arr=io.subArray(io.readFile(), 0, 3);
+//		for(String x:arr){
+//			System.out.println(x);
+//		}
 
+		io.textScrolling();
+		
 	}
 
 }

@@ -226,6 +226,81 @@ public class FileIO {
 
 	}
 
+	public String[] subArray(String[] arr, int first, int last) {
+
+		String[] result = new String[last - first];
+		for (int i = first, j = 0; i < last; i++, j++) {
+			// System.out.println("podtablica[j]:"+j+" =tablica zakresu[i]:"+i);
+			result[j] = arr[i];
+		}
+		return result;
+	}
+	
+	public void saveArrAsNewFile(String fileName, String[]arr){
+		File f2 = new File(fileName);
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(f2);
+			PrintWriter pw = new PrintWriter(fos);
+			for(String x:arr){
+				pw.print(x);
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+
+	public void textScrolling() {
+		Scanner sc = new Scanner(System.in);
+		Scanner sc2 = new Scanner(System.in);
+
+		int firstLine;
+		int lastLine;
+		int scope;
+		System.out.println("pierwsza linia:");
+		firstLine = sc.nextInt();
+		System.out.println("ostatnia linia:");
+		lastLine = sc.nextInt();
+		System.out.println("zakres:");
+		scope = sc.nextInt();
+		String[] arr = readLines(firstLine, lastLine);
+		String[] scopeArr = subArray(arr, 0, scope);
+
+		String input = "start";
+		int i = 0;
+
+		while (input.equals("<") || input.equals(">") || input.equals("start")) {
+			if (input.equals(">") && (i + scope == arr.length) || (input.equals("<") && (i == 0))) {
+				System.out.println("wyszedles poza zakres");
+				input = "start";
+				continue;
+			}
+			for (String x : scopeArr) {
+				System.out.println(x);
+			}
+			System.out.println("podaj znak");
+			input = sc2.nextLine();
+			if (input.equals(">") && (i + scope < arr.length)) {
+				i++;
+				scopeArr = subArray(arr, i, i + scope);
+				continue;
+			}
+
+			if (input.equals("<") && (i > 0)) {
+				i--;
+				scopeArr = subArray(arr, i, i + scope);
+				continue;
+			}
+
+		}
+
+	}
+
 	public void scrolling() {
 		Scanner sc = new Scanner(System.in);
 		int firstLine;
@@ -238,6 +313,7 @@ public class FileIO {
 		System.out.println("zakres:");
 		scope = sc.nextInt();
 		String[] arr = readLines(firstLine, firstLine + scope - 1);
+		sc.nextLine();
 
 		String input = "";
 		while (!input.equals("q")) {
@@ -249,19 +325,19 @@ public class FileIO {
 			input = sc.nextLine();
 
 			switch (input) {
-				case ">": {
-					firstLine += scope;
-					secondLine += scope;
-					arr = readLines(firstLine, secondLine);
-					break;
-				}
-					
-				case "<": {
-					firstLine -= scope;
-					secondLine -= scope;
-					arr = readLines(firstLine, secondLine);
-					break;
-				}
+			case ">": {
+				firstLine += scope;
+				secondLine += scope;
+				arr = readLines(firstLine, secondLine);
+				break;
+			}
+
+			case "<": {
+				firstLine -= scope;
+				secondLine -= scope;
+				arr = readLines(firstLine, secondLine);
+				break;
+			}
 			}
 
 		}
