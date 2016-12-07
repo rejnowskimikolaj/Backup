@@ -5,7 +5,7 @@ public class TravelRequest {
 	private TravelPreferences travelPreferences;
 	private int recordsOnPage;
 	private int pageNumber;
-	
+	//recordsOnPage i pageNumber i tak nie zostana uzyte, zmienne te sa uwzgledniane w metodzie print w travelService
 	public TravelRequest(TravelPreferences travelPreferences, int recordsOnPage, int pageNumber) {
 		this.travelPreferences = travelPreferences;
 		this.recordsOnPage = recordsOnPage;
