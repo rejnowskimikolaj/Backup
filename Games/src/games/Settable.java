@@ -2,6 +2,6 @@ package games;
 
 public interface Settable {
 	
-	public void setLevel();
+	public void setConfig(Configurator configurator);
 	
 }

@@ -6,12 +6,15 @@ import java.util.Scanner;
 public class Menu implements Playable {
 	
 private ArrayList<String>games;
-private ProperPrinter pp = new ProperPrinter(40);
+private ProperPrinter pp = new ProperPrinter(60);
 
 	public Menu(){
 		this.games = new ArrayList<String>();
 		games.add("GuessWord");
 		games.add("GuessNumber");
+		games.add("Equation");
+		games.add("SortingGame");
+		games.add("Who Wants To Be A Millionaire?");
 	}
 
 	@Override
@@ -44,8 +47,17 @@ private ProperPrinter pp = new ProperPrinter(40);
 			return;
 		}
 		else if(i==1) game= new GuessWord("src\\games\\words.txt",this.pp);
-		else game=new GuessNumber(this.pp);
+		else if(i==2)game=new GuessNumber(this.pp);
+		else if(i==3)game=new Equation(this.pp);
+		else if(i==4) game = new SortingGame(this.pp);
+		else game=new WhoWantsToBeMillionaire(this.pp);
 		game.run();
 		game();
+	}
+
+	@Override
+	public void setConfig(Configurator configurator) {
+		// TODO Auto-generated method stub
+		
 	}
 }

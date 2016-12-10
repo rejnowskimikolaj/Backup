@@ -4,18 +4,22 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
 
 public class GuessWord implements Playable {
 
+	private String name="GuessWord";
 	private List<String>words;
 	private String wordToGuess;
 	private int lives;
 	private int livesLeft;
 	private String fileName;
 	private ProperPrinter pp;
+	private Map<String, String> config;
+	private Configurator configurator;
 	
 	public GuessWord(String fileName,ProperPrinter pp){
 		File f = new File(fileName);
@@ -32,7 +36,8 @@ public class GuessWord implements Playable {
 			e.printStackTrace();
 		}
 		
-		
+		this.configurator=new Configurator("src\\games\\"+name+".ini");
+		setConfig(this.configurator);
 	}
 	
 	@Override
@@ -181,6 +186,18 @@ private boolean isWon(ArrayList<String> underscored){
 	public void setPp(ProperPrinter pp) {
 		this.pp = pp;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
+	@Override
+	public void setConfig(Configurator configurator) {
+		this.configurator=configurator;
+	}
 	
 }
