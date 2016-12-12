@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<root>
+	<staff id="1000">
+		<firstname>Pawel</firstname>
+		<lastname>Testowy</lastname>
+		<salary>1000</salary>
+	</staff>
+	<staff id="1001">
+		<firstname>Jola</firstname>
+		<lastname>Testowa</lastname>
+		<salary>2000</salary>
+	</staff>
+	<staff id="1002">
+		<firstname>Krzysztof</firstname>
+		<lastname>Krawczyk</lastname>
+		<salary>10000</salary>
+	</staff>
+	<staff id="1000">
+		<firstname>Gal</firstname>
+		<lastname>Anonim</lastname>
+		<salary>35</salary>
+	</staff>
+</root>
