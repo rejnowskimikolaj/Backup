@@ -1,0 +1,10 @@
+{
+	"lista": [
+		"asd",
+		5,
+		4.4,
+		{"asd":"qweqwe","rty":"vbn"}
+	],
+	"asd":12,
+	"qeqwe":"zxc"
+}
