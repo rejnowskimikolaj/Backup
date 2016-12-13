@@ -2,6 +2,9 @@ package zadania;
 
 import java.util.ArrayList;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 public class personApp {
 
 	public static void main(String[] args) {
@@ -13,6 +16,13 @@ public class personApp {
 		list.add(new Person("Jola", "Testowa","SII", 9000, "FrontEnd", 2000));
 		list.add(new Person("Andrzej", "Andrzejewski","Intel", 5000, "HR", 1992));
 		list.add(new Person("Maciej", "Andrzejewski","Facebook", 10000, "Housekeeping", 1989));
+		XMLUtil xml = new XMLUtil();
+		try {
+			xml.zad6SavePeople("persons.xml", list);
+		} catch (ParserConfigurationException | TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 
