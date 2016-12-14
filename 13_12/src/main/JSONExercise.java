@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,9 +27,30 @@ public class JSONExercise {
 		Object o =parser.parse(readFileAsString(fileName));
 		return (JSONObject) o;
 	}
-	public void saveJSONAsIni(String sourceFileName,String destinationFileName) throws ParseException{
-		JSONObject jo = getJSONObjectFromFile(sourceFileName);
+	public boolean checkIfJSON(String text){
 		
+		JSONParser parser = new JSONParser();
+		
+		try {
+			Object o = parser.parse(text);
+			
+			if(o instanceof JSONArray) {
+				return true;
+			} else {
+				return true;
+			}
+			
+		} catch(Exception e) {
+			return false;
+		}	
+			}
+	public String getIniLine(Object jo) throws ParseException{
+		ArrayList<String> iniLines = new ArrayList<>();
+		
+		Set<String> keySet = jo.keySet();
+		for(String key:keySet){
+			String element = jo.get(key).toString();
+			checkIfJSON(text)
 		
 	}
 	public String readFileAsString(String fileName) {
@@ -161,7 +184,7 @@ public class JSONExercise {
 		
 		
 	}
-	public void createSimpleJSON() {
+	public Object createJSON(String text) {
 		/*JSONObject jo = new JSONObject();
 		
 		jo.put("klucz", "wartosc");
@@ -177,24 +200,21 @@ public class JSONExercise {
 		
 		System.out.println(jo);*/
 		
-		String myJSON = "[\"asd\",5,4.4,{\"asd\":\"qweqwe\",\"rty\":\"vbn\"}]";
 		
 		JSONParser parser = new JSONParser();
 		
 		try {
-			Object o = parser.parse(myJSON);
+			Object o = parser.parse(text);
 			
 			if(o instanceof JSONArray) {
-				System.out.println("to jest array");
-				JSONArray j2 = (JSONArray) o;
+				return (JSONArray) o;
 			} else {
-				System.out.println("to jest object");
-				JSONObject j2 = (JSONObject) o;
+				return  (JSONObject) o;
 			}
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		return null;
 	}
 }
