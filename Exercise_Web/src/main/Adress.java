@@ -1,6 +1,7 @@
 package main;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -22,11 +23,14 @@ public class Adress {
 	}
 	
 	private String randomStreet(){
-		File f = new File("src//resources//ulice.txt");
+		InputStream in = getClass().getResourceAsStream("WEB-INF/ulice.txt");
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("main//ulice.txt").getFile());
+		//File f = new File("src//resources//ulice.txt");
 		ArrayList<String> list = new ArrayList<String>();
 		Scanner sc;
 		try {
-			sc = new Scanner(f);
+			sc = new Scanner(file);
 			while(sc.hasNextLine()){
 				list.add(sc.nextLine());
 			}
@@ -34,17 +38,21 @@ public class Adress {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		Random rd = new Random();
 		
 		return list.get(rd.nextInt(list.size()));
 	}
 	
 	private String randomCity(){
-		File f = new File("src//resources//miasta.txt");
+		InputStream in = getClass().getResourceAsStream("WEB-INF/miasta.txt");
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("main//miasta.txt").getFile());
+		//File f = new File("src//resources//miasta.txt");
 		ArrayList<String> list = new ArrayList<String>();
 		Scanner sc;
 		try {
-			sc = new Scanner(f);
+			sc = new Scanner(file);
 			while(sc.hasNextLine()){
 				list.add(sc.nextLine());
 			}
@@ -52,6 +60,7 @@ public class Adress {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		Random rd = new Random();
 		
 		return list.get(rd.nextInt(list.size()));
