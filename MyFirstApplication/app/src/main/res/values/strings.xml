@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MyFirstApplication</string>
+    <string name="get_location">Get Location</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connect">Connect</string>
+    <string name="go">Go</string>
+    <string name="napis">Napis</string>
+    <string name="display_name_button">Display Name</string>
+
+</resources>
