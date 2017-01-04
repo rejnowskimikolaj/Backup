@@ -1,0 +1,50 @@
+Ulica 1 Maja
+Ulica 3 Maja
+Ulica 11 Listopada
+Ulica Akademicka
+Ulica gen. W³adys³awa Andersa
+Ulica Armii Krajowej
+Ulica Balonowa
+Ulica Bankowa
+Ulica Józefa Bema
+Ulica Beskidzka
+Ulica Bia³oskórnicza
+Ulica Bielska
+Ulica Bohaterów Monte Cassino
+Ulica Bracka
+Ulica Browarna
+Ulica Brzeska
+Ulica Bytomska
+Ulica Ch³odna
+Ulica Chmielna
+Ulica Fryderyka Chopina
+Ulica Chorzowska
+Ulica Boles³awa Chrobrego
+Ulica Ciasna
+Ulica Jana Henryka D¹browskiego
+Ulica D³uga
+Ulica Dworcowa
+Ulica Fabryczna
+Ulica Floriañska
+Ulica Franciszkañska
+Ulica Francuska
+Ulica Aleksandra Fredry
+Ulica Garbarska
+Ulica Gdañska
+Ulica Gliwicka
+Ulica Bartosza G³owackiego
+Ulica GnieŸnieñska
+Ulica Go³êbia
+Ulica Górnoœl¹ska
+Ulica Graniczna
+Ulica Grodzka
+Ulica Artura Grottgera
+Ulica Grunwaldzka
+Ulica Hallera
+Ulica Hetmañska
+Ulica Hrubieszowska
+Ulica Jagielloñska
+Ulica Jana Paw³a II
+Ulica Jana z Kolna
+Ulica Wincentego Janasa
+Ulica Jezuicka

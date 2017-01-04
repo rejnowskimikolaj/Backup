@@ -1,12 +1,17 @@
 package main;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.servlet.ServletContext;
+
 import org.json.simple.JSONObject;
+
+import jdk.nashorn.internal.runtime.Context;
 
 public class User {
 
@@ -116,11 +121,18 @@ public class User {
 		
 	
 	private String randomName(){
-		File f = new File("src//resources//imiona.txt");
+		//File f = new File("src//resources//imiona.txt");
+		//
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("main//imiona.txt").getFile());
+		InputStream in = this.getClass().getResourceAsStream("//WebContent//WEB-INF//imiona.txt");
+		//URL resourceUrl = context.getResource("/WEB-INF/test/foo.txt");
+		
+		//
 		ArrayList<String> list = new ArrayList<String>();
 		Scanner sc;
 		try {
-			sc = new Scanner(f);
+			sc = new Scanner(file);
 			while(sc.hasNextLine()){
 				list.add(sc.nextLine());
 			}
@@ -128,17 +140,19 @@ public class User {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		Random rd = new Random();
 		
 		return list.get(rd.nextInt(list.size()));
 	}
 	
 	private String randomLastName(){
-		File f = new File("src//resources//nazwiska.txt");
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("main//nazwiska.txt").getFile());
 		ArrayList<String> list = new ArrayList<String>();
 		Scanner sc;
 		try {
-			sc = new Scanner(f);
+			sc = new Scanner(file);
 			while(sc.hasNextLine()){
 				list.add(sc.nextLine());
 			}
@@ -146,6 +160,7 @@ public class User {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		Random rd = new Random();
 		
 		return list.get(rd.nextInt(list.size()));

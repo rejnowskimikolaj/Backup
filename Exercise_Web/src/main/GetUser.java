@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 /**
  * Servlet implementation class GetUser
  */
@@ -30,8 +32,11 @@ public class GetUser extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
 		User user = new User();
-		pw.print(user.getName());
-		pw.print(user.getJSONObject().toString());
+		JSONObject jo = new JSONObject();
+		jo.put("name", user.getName());
+		pw.print(jo.toString());//user.getName()
+		//pw.print(user.getJSONObject().toString());
+		//pw.print(user.toString());
 	}
 
 	/**
