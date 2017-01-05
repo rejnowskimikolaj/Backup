@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+    <Button
+        android:text="zad3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/zad3_button"
+        android:onClick="goToZad3" />
+
+    <Button
+        android:text="Zad4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/za4_button"
+        android:onClick="goToZad4" />
+
+    <Button
+        android:text="Zad5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/zad5_button"
+        android:onClick="goToZad5" />
+
+    <Button
+        android:text="Zad6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/zad6_button"
+        android:onClick="goToZad6" />
+</LinearLayout>
