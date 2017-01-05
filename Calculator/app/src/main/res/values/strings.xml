@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Kalkulator</string>
+    <string name="button_sum">Dodaj</string>
+    <string name="button_substract">Odejmij</string>
+    <string name="button_multiply">Pomnóż</string>
+    <string name="button_divide">Podziel</string>
+    <string name="edit_give_number">Podaj liczbę</string>
+    <string name="result">Wynik</string>
+
+
+</resources>
