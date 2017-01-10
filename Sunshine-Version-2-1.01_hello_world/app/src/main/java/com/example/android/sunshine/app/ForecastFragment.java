@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,6 +69,12 @@ private ArrayAdapter<String> mForecastAdapter;
 
             return true;
         }
+
+        else if(id==R.id.action_settings){
+            Toast.makeText(getActivity(), "settings", Toast.LENGTH_SHORT).show();
+
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -96,7 +103,13 @@ private ArrayAdapter<String> mForecastAdapter;
         listViewForecast.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), mForecastAdapter.getItem(i), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActivity(), mForecastAdapter.getItem(i), Toast.LENGTH_SHORT).show();
+
+                String forecast = mForecastAdapter.getItem(i).toString();
+
+                Intent intent = new Intent(getActivity(),DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT,forecast);
+                startActivity(intent);
 
             }
         });
@@ -212,7 +225,6 @@ private ArrayAdapter<String> mForecastAdapter;
                         .appendPath("data")
                         .appendPath("2.5")
                         .appendPath("forecast")
-                        .appendPath("city")
                         .appendQueryParameter("id", params[0])
                         .appendQueryParameter("APPID", "65b2cefe96066a833ed493d04d6a2c78");
                 String myUrl = builder.build().toString();
