@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">1001Application</string>
+    <string name="title_activity_light_sensor">LightSensorActivity</string>
+</resources>

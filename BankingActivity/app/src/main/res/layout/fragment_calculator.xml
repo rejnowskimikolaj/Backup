@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.rent.bankingactivity.CalculatorFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/calculator_edit_amount"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:hint="enter amount" />
+
+    <Button
+        android:text="convert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calculator_edit_amount"
+        android:layout_alignStart="@+id/calculator_edit_amount"
+        android:layout_marginTop="10dp"
+        android:id="@+id/calculator_convert_button" />
+
+    <TextView
+        android:text="Result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calculator_convert_button"
+        android:layout_alignStart="@+id/calculator_convert_button"
+        android:layout_marginTop="36dp"
+        android:id="@+id/calculator_result_textview" />
+</RelativeLayout>
