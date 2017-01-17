@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lifebelts">Koła ratunkowe</string>
+    <string name="level">Poziom</string>
+    <string name="cash">Kasa:</string>
+    <string name="new_game">Nowa Gra</string>
+    <string name="settings">Ustawienia</string>
+    <string name="exit">Wyjście</string>
+    <string name="fifty_fifty">Pół na pół</string>
+    <string name="ask_audience">Publiczność</string>
+    <string name="call">Telefon</string>
+    <string name="your_max_level">Ukończony poziom:</string>
+
+</resources>
