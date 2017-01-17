@@ -18,15 +18,21 @@
         >
 
         <TextView
+            android:textColor="@color/answerButtonTextColor"
             android:text="Good job!"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/game_finished_correct_answer"
             android:textAlignment="center" />
-
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+          />
 
 
         <Button
+            android:background="@drawable/answer_button_gradient"
+            android:textColor="@color/answerButtonTextColor"
             android:text="Go to main menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
