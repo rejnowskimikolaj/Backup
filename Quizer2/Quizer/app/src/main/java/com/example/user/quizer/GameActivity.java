@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import java.util.Random;
 
 import utils.Question;
 import utils.QuestionLoader;
+import utils.ReadingUtil;
+import utils.SavingUtil;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -35,7 +38,9 @@ public class GameActivity extends AppCompatActivity {
     GameInfoFragment gameInfoFragment;
     LifeBeltFragment lifeBeltFragment;
     private int questionNumber;
+
     final private int QUESTIONMAXDIFFICULTY=14;
+
 
     public void setLevelList(){
         levelList = new ArrayList<>();
@@ -49,7 +54,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
 
         setLevelList();
         questions = new ArrayList<>();
@@ -90,6 +94,8 @@ public class GameActivity extends AppCompatActivity {
 
             if(questionNumber==QUESTIONMAXDIFFICULTY){
                 ///WIN
+                questionNumber++;
+                SavingUtil.saveScore("Rejnol",getTodayDateString(),questionNumber,this);
 
                 GameFinishedFragment gameFinishedFragment = getNewFinishedFragmentWithResult(GameFinishedFragment.GAME_WON_TAG,question);
                 getFragmentManager().beginTransaction()
@@ -117,10 +123,14 @@ public class GameActivity extends AppCompatActivity {
         else {
 
             //LOST
+           // SavingUtil.cleanScore(this);
+            SavingUtil.saveScore("Rejnol",getTodayDateString(),questionNumber,this);
+
 
             GameFinishedFragment gameFinishedFragment = getNewFinishedFragmentWithResult(GameFinishedFragment.GAME_LOST_TAG,question);
             getFragmentManager().beginTransaction()
                     .replace(R.id.game_activity_question_frame, gameFinishedFragment).commit();
+           // Toast.makeText(this, ReadingUtil.readScore(this),Toast.LENGTH_LONG).show();
             gameInfoFragment.endGame();
         }
 
@@ -184,6 +194,7 @@ public class GameActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             levelListView = new ListView(this);
+            levelListView.setBackgroundColor(getResources().getColor(R.color.darkblue));
 
             ArrayAdapter adapter = new ArrayAdapter(this,R.layout.level_dialog_item,levelList) {
 
@@ -196,7 +207,8 @@ public class GameActivity extends AppCompatActivity {
 
 
                     textView.setText(levelList.get(position));
-                    if(position<=level) {
+                    if(position<=
+                            level) {
                         textView.setTextColor(getResources().getColor(R.color.green));
                     }
                     return textView;
@@ -209,9 +221,26 @@ public class GameActivity extends AppCompatActivity {
 
 
             builder.setView(levelListView);
+           // builder.setTitle("Your progress");
+
             levelAlert = builder.create();
             levelAlert.show();
         }
 
+    public String getTodayDateString(){
+        Time today = new Time(Time.getCurrentTimezone());
+
+        today.setToNow();
+        //Then, you can get all the date fields you want, like, for example:
+
+        String result="";
+        result+=today.monthDay+"-"+(today.month+1)+"-"+today.year;
+//        textViewDay.setText(today.monthDay + "");             // Day of the month (1-31)
+//        textViewMonth.setText(today.month + "");              // Month (0-11)
+//        textViewYear.setText(today.year + "");                // Year
+//        textViewTime.setText(today.format("%k:%M:%S"));  // Current time
+
+        return result;
+    }
 }
 

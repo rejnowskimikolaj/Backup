@@ -24,6 +24,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/menu_new_game_button" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:background="@drawable/answer_button_gradient"
+
+            android:text="Scores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/menu_scores_button" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="10dp"

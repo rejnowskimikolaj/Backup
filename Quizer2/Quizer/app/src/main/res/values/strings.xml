@@ -13,5 +13,6 @@
     <string name="ask_audience">Ask audience</string>
     <string name="call">Call</string>
     <string name="your_max_level">Your max level:</string>
+    <string name="delete_scores">Delete scores</string>
 
 </resources>

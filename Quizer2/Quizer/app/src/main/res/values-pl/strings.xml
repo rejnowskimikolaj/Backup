@@ -11,5 +11,7 @@
     <string name="ask_audience">Publiczność</string>
     <string name="call">Telefon</string>
     <string name="your_max_level">Ukończony poziom:</string>
+    <string name="delete_scores">Usuń wyniki</string>
+
 
 </resources>

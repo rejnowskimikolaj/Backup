@@ -12,6 +12,7 @@ public class MenuActivity extends Activity {
     Button newGameButton;
     Button settingsButton;
     Button exitButton;
+    Button scoresButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class MenuActivity extends Activity {
         newGameButton = (Button) findViewById(R.id.menu_new_game_button);
         settingsButton = (Button) findViewById(R.id.menu_settings_button);
         exitButton= (Button) findViewById(R.id.menu_exit_button);
+        scoresButton = (Button) findViewById(R.id.menu_scores_button);
 
         setListeners();
 
@@ -32,6 +34,7 @@ public class MenuActivity extends Activity {
         newGameButton.setOnClickListener(listener);
         settingsButton.setOnClickListener(listener);
         exitButton.setOnClickListener(listener);
+        scoresButton.setOnClickListener(listener);
 
     }
 
@@ -48,6 +51,8 @@ public class MenuActivity extends Activity {
                 case R.id.menu_new_game_button: intent=new Intent(getApplicationContext(),GameActivity.class);
                     break;
                 case R.id.menu_settings_button: intent = new Intent(getApplicationContext(),SettingsActivity.class);
+                    break;
+                case R.id.menu_scores_button: intent = new Intent(getApplicationContext(),ScoresActivity.class);
                     break;
                 case R.id.menu_exit_button: finish();
             }

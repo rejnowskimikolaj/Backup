@@ -1,9 +1,11 @@
-package com.example.user.quizer;
+package utils;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+
+import com.example.user.quizer.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +33,7 @@ public class LevelDialogUtil {
 
     public ArrayAdapter getAdapter(Context context){
 
-        return new ArrayAdapter(context,R.layout.level_dialog_item,levelList);
+        return new ArrayAdapter(context, R.layout.level_dialog_item,levelList);
 
     }
 
