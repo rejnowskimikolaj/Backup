@@ -14,5 +14,13 @@
     <string name="call">Call</string>
     <string name="your_max_level">Your max level:</string>
     <string name="delete_scores">Delete scores</string>
+    <string name="save">Save your score</string>
+    <string name="saveShort">Save</string>
+    <string name="name">your name</string>
+
+    <string name="TypeYourName">Type your name here</string>
+    <string name="goToMainMenu">Go to main menu</string>
+    <string name="max_level">Max level</string>
+    <string name="scores">Scores</string>
 
 </resources>

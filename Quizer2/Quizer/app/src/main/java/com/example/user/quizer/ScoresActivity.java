@@ -62,7 +62,7 @@ public class ScoresActivity extends Activity {
             String scoreLine ="";
             String[] lineArr = line.split(";");
             Log.d("LINEARR", lineArr.length+"");
-            scoreLine+="USER: "+lineArr[0]+", DATE: "+lineArr[1]+" MAX LEVEL: " +lineArr[2];
+            scoreLine+=lineArr[0]+","+lineArr[1]+", "+getResources().getString(R.string.max_level)+": " +lineArr[2];
             scoreList.add(scoreLine);
         }
 

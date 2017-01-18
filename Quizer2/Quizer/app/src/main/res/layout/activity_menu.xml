@@ -33,7 +33,7 @@
         <Button
             android:background="@drawable/answer_button_gradient"
 
-            android:text="Scores"
+            android:text="@string/scores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/menu_scores_button" />
@@ -50,17 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/menu_settings_button" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            android:layout_weight="1" />
 
-        <Button
-            android:background="@drawable/answer_button_gradient"
 
-            android:text="@string/exit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/menu_exit_button" />
     </LinearLayout>
 </RelativeLayout>

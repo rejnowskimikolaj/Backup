@@ -1,8 +1,6 @@
 package com.example.user.quizer;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,29 +19,28 @@ import java.util.Random;
 
 import utils.Question;
 import utils.QuestionLoader;
-import utils.ReadingUtil;
 import utils.SavingUtil;
 
 public class GameActivity extends AppCompatActivity {
 
     public static final String QUESTION_TAG = "question";
+    public static final String QUESTION_NUMBER="number";
     private List<Question> questions;
     private ListView levelListView;
-    AlertDialog levelAlert;
 
     private List<String> levelList;
 
     QuestionFragment questionFragment;
     GameInfoFragment gameInfoFragment;
     LifeBeltFragment lifeBeltFragment;
-    private int questionNumber;
+    public int questionNumber;
 
     final private int QUESTIONMAXDIFFICULTY=14;
 
 
     public void setLevelList(){
         levelList = new ArrayList<>();
-        int [] arr = {100,200,300,500,1000,2000,4000,8000,16000,32000,64000,125000,500000,1000000};
+        int [] arr = {100,200,300,500,1000,2000,4000,8000,16000,32000,64000,125000,250000,500000,1000000};
 
         for(int i:arr){
             levelList.add(i+"");
@@ -81,23 +77,22 @@ public class GameActivity extends AppCompatActivity {
                 .add(R.id.game_activity_question_frame, questionFragment).commit();
         getFragmentManager().beginTransaction()
                 .add(R.id.activity_game_lifeBelt_frame, lifeBeltFragment).commit();
+
+
     }
 
     public void onAnswerSelected(String text,Question question){
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
 
 
-        Log.d("question number", questionNumber+"");
-        Log.d("max diff", QUESTIONMAXDIFFICULTY+"");
-
         if(text.equals(QuestionFragment.CORRECT_ANSWER_TAG)) {
 
             if(questionNumber==QUESTIONMAXDIFFICULTY){
                 ///WIN
                 questionNumber++;
-                SavingUtil.saveScore("Rejnol",getTodayDateString(),questionNumber,this);
 
-                GameFinishedFragment gameFinishedFragment = getNewFinishedFragmentWithResult(GameFinishedFragment.GAME_WON_TAG,question);
+
+                GameFinishedFragment gameFinishedFragment = getNewFinishedFragmentWithResult(this.questionNumber,GameFinishedFragment.GAME_WON_TAG,question);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.game_activity_question_frame, gameFinishedFragment).commit();
                     gameInfoFragment.endGame();
@@ -107,9 +102,9 @@ public class GameActivity extends AppCompatActivity {
 
             else {
                 ///NEXT QUESTION
-
-                displayDialog(questionNumber);
+                displayLevelDialog(questionNumber);
                 questionNumber++;
+
                 Bundle questionArguments = new Bundle();
                 questionArguments.putParcelable(QUESTION_TAG, getDifficultyQuestion(questionNumber));
                 questionFragment = new QuestionFragment();
@@ -124,10 +119,9 @@ public class GameActivity extends AppCompatActivity {
 
             //LOST
            // SavingUtil.cleanScore(this);
-            SavingUtil.saveScore("Rejnol",getTodayDateString(),questionNumber,this);
 
 
-            GameFinishedFragment gameFinishedFragment = getNewFinishedFragmentWithResult(GameFinishedFragment.GAME_LOST_TAG,question);
+            GameFinishedFragment gameFinishedFragment = getNewFinishedFragmentWithResult(this.questionNumber,GameFinishedFragment.GAME_LOST_TAG,question);
             getFragmentManager().beginTransaction()
                     .replace(R.id.game_activity_question_frame, gameFinishedFragment).commit();
            // Toast.makeText(this, ReadingUtil.readScore(this),Toast.LENGTH_LONG).show();
@@ -158,12 +152,12 @@ public class GameActivity extends AppCompatActivity {
         return difficultyQuestions.get(r.nextInt(difficultyQuestions.size()));
     }
 
-    public GameFinishedFragment getNewFinishedFragmentWithResult(String text,Question question){
+    public GameFinishedFragment getNewFinishedFragmentWithResult(int questionNumber,String text,Question question){
 
             Bundle gameFinishedArguments = new Bundle();
             gameFinishedArguments.putString(QuestionFragment.RESULT_TAG,text);
             gameFinishedArguments.putParcelable(QUESTION_TAG,question);
-
+            gameFinishedArguments.putInt(QUESTION_NUMBER,questionNumber);
 
 
             GameFinishedFragment gameFinishedFragment = new GameFinishedFragment();
@@ -174,9 +168,6 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-        public QuestionFragment getQuestionFragment(){
-            return this.questionFragment;
-        }
 
         public void useCallLifebelt() {
             this.questionFragment.useCallLifebelt();
@@ -190,13 +181,16 @@ public class GameActivity extends AppCompatActivity {
             this.questionFragment.useFiftyLifebelt();
         }
 
-        public void displayDialog(final int level){
+        public void displayLevelDialog(final int level){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             levelListView = new ListView(this);
             levelListView.setBackgroundColor(getResources().getColor(R.color.darkblue));
 
+
             ArrayAdapter adapter = new ArrayAdapter(this,R.layout.level_dialog_item,levelList) {
+
+
 
 
 
@@ -206,15 +200,24 @@ public class GameActivity extends AppCompatActivity {
                     TextView textView = (TextView) super.getView(position, convertView, parent);
 
 
-                    textView.setText(levelList.get(position));
-                    if(position<=
-                            level) {
-                        textView.setTextColor(getResources().getColor(R.color.green));
-                    }
+                        textView.setText(levelList.get(position));
+
+
+                        if(position<=level) {
+                            textView.setTextColor(getResources().getColor(R.color.green));
+                            Log.d("ADAPTER", "position: "+position+" level: "+level);
+                        }
+
+                        else {
+                            textView.setTextColor(getResources().getColor(R.color.answerButtonTextColor));
+
+                        }
+
+
+
                     return textView;
                 }
             };
-
 
 
             levelListView.setAdapter(adapter);
@@ -223,6 +226,7 @@ public class GameActivity extends AppCompatActivity {
             builder.setView(levelListView);
            // builder.setTitle("Your progress");
 
+            AlertDialog levelAlert;
             levelAlert = builder.create();
             levelAlert.show();
         }
@@ -242,5 +246,10 @@ public class GameActivity extends AppCompatActivity {
 
         return result;
     }
+
+    public void displayYouWonDialog(){
+
+    }
+
 }
 

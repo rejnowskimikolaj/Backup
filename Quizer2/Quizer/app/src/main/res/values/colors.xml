@@ -17,8 +17,11 @@
     <item name="buttonGradientStart" type="color">#000000</item>
     <item name="buttonGradientMiddle" type="color">#383636</item>
     <item name="buttonGradientEnd" type="color">#4b4b4b</item>
+    <item name="grayBackground" type="color">#878787</item>
     <item name="answerButtonTextColor" type="color">#ffffff</item>
     <item name="invisibleButtonColor" type="color">#d2d2d2</item>
-
+    <item name="editTextGradientStart" type="color">#049cca</item>
+    <item name="editTextGradientMiddle" type="color">#03bfe9</item>
+    <item name="editTextGradientEnd" type="color">#01a4b9</item>
 
 </resources>

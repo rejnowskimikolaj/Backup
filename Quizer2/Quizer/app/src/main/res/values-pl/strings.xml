@@ -12,6 +12,15 @@
     <string name="call">Telefon</string>
     <string name="your_max_level">Ukończony poziom:</string>
     <string name="delete_scores">Usuń wyniki</string>
+    <string name="save">Zapisz swój wynik</string>
+    <string name="TypeYourName">Wpisz swoje imię</string>
+    <string name="goToMainMenu">Idź do menu głównego</string>
+    <string name="max_level">Max. poziom</string>
+    <string name="scores">Wyniki</string>
+    <string name="saveShort">Zapisz</string>
+    <string name="name">twoje imię</string>
+
+
 
 
 </resources>

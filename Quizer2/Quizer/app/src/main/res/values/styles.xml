@@ -20,4 +20,11 @@
         <item name="android:textColor">@color/answerButtonTextColor</item>
     </style>
 
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorPrimary">@color/answerButtonTextColor</item>
+        <item name="android:colorAccent">@color/answerButtonTextColor</item>
+
+        <item name="android:background">@drawable/black_gradient</item>
+    </style>
+
 </resources>
