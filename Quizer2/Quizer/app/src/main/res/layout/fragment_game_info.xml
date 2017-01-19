@@ -11,15 +11,12 @@
     <TextView
         android:textColor="@color/textPrimary"
 
-        android:text="0"
+        android:text="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/game_info_points_textview"
         android:textSize="18sp"
         android:gravity="center_horizontal"
-        android:layout_alignBaseline="@+id/fragment_game_LEVEL_textview"
-        android:layout_alignBottom="@+id/fragment_game_LEVEL_textview"
-        android:layout_toEndOf="@+id/fragment_game_LEVEL_textview"
         android:layout_marginStart="12dp" />
 
     <TextView

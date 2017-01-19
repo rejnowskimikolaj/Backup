@@ -22,5 +22,9 @@
     <string name="goToMainMenu">Go to main menu</string>
     <string name="max_level">Max level</string>
     <string name="scores">Scores</string>
+    <string name="audience_results">Audience results</string>
+    <string name="i_think_that">I think, that correct answer is: </string>
+    <string name="question_for">Question for:  </string>
+
 
 </resources>

@@ -75,8 +75,11 @@ public class GameActivity extends AppCompatActivity {
 
         getFragmentManager().beginTransaction()
                 .add(R.id.game_activity_question_frame, questionFragment).commit();
+
         getFragmentManager().beginTransaction()
                 .add(R.id.activity_game_lifeBelt_frame, lifeBeltFragment).commit();
+
+        displayLevelDialog(questionNumber-1);
 
 
     }
@@ -204,11 +207,18 @@ public class GameActivity extends AppCompatActivity {
 
 
                         if(position<=level) {
+                            textView.setText(levelList.get(position));
                             textView.setTextColor(getResources().getColor(R.color.green));
                             Log.d("ADAPTER", "position: "+position+" level: "+level);
                         }
 
+                        else if(position==level+1){
+                            textView.setText(getString(R.string.question_for)+levelList.get(position));
+                        }
+
                         else {
+                            textView.setText(levelList.get(position));
+
                             textView.setTextColor(getResources().getColor(R.color.answerButtonTextColor));
 
                         }

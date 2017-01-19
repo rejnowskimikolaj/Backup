@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Quizer</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lifebelts">Koła ratunkowe</string>
     <string name="level">Poziom</string>
@@ -19,7 +21,9 @@
     <string name="scores">Wyniki</string>
     <string name="saveShort">Zapisz</string>
     <string name="name">twoje imię</string>
-
+    <string name="audience_results">Wyniki głosowania</string>
+    <string name="i_think_that">Myślę,że poprawna odpowiedź to: </string>
+    <string name="question_for">Pytanie za:  </string>
 
 
 

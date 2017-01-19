@@ -38,7 +38,7 @@ public class GameInfoFragment extends Fragment {
 
     public void displayQuestionNumber(int number){
 
-        gameInfoPointsTextView.setText(number+"");
+        gameInfoPointsTextView.setText((number+1)+"");
         cashTextView.setText(getCashAmout(number-1)+"");
 
     }

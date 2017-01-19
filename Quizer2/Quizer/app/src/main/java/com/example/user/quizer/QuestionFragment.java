@@ -32,6 +32,8 @@ public class QuestionFragment extends Fragment {
     Button answerDButton;
     String [] answerArr;
 
+    private boolean fiftyUsed;
+
     public static final String CORRECT_ANSWER_TAG = "correct";
     public static final String NOT_CORRECT_ANSWER_TAG = "notCorrect";
     public static final String RESULT_TAG = "result";
@@ -66,6 +68,7 @@ public class QuestionFragment extends Fragment {
         answerCButton = (Button) view.findViewById(R.id.question_fragment_answer_c);
         answerDButton = (Button) view.findViewById(R.id.question_fragment_answer_d);
 
+        fiftyUsed = false;
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -135,8 +138,9 @@ public class QuestionFragment extends Fragment {
         }
     }
 
-    public void
-    useCallLifebelt() {
+    public void useCallLifebelt() {
+
+        Button[]buttonArr =  {answerAButton,answerBButton,answerCButton,answerDButton};
 
         Random r = new Random();
 
@@ -148,7 +152,7 @@ public class QuestionFragment extends Fragment {
 
         if(can==0){
             for(int i=0;i<answerArr.length;i++){
-                if(question.getCorrectAnswerPointer()!=i) {
+                if(question.getCorrectAnswerPointer()!=i&&buttonArr[i].getVisibility()!=View.GONE) {
                     questionPointer=i;
                     break;
                 }
@@ -163,8 +167,10 @@ public class QuestionFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),AlertDialog.THEME_HOLO_LIGHT);
 
 // 2. Chain together various setter methods to set the dialog characteristics
-        builder.setMessage(question.getQuestionText()+" "+answerArr[questionPointer])
-                .setTitle("I think, that:");
+        builder.setMessage(
+              //  question.getQuestionText()+" "+
+                        answerArr[questionPointer])
+                .setTitle(getResources().getString(R.string.i_think_that));
 
 
 // 3. Get the AlertDialog from create()
@@ -180,14 +186,32 @@ public class QuestionFragment extends Fragment {
 
         String[] statsArr = new String[4];
 
+        Button[]buttonArr =  {answerAButton,answerBButton,answerCButton,answerDButton};
+
+
 
         for(int i=0;i<statsArr.length;i++){
             statsArr[i]=answerArr[i]+": ";
             String singleStat="";
             if(i==question.getCorrectAnswerPointer()){
-                singleStat="40%";
+                if(fiftyUsed==false)singleStat="40%";
+                else singleStat="70%";
+
             }
-            else singleStat="20%";
+
+            else
+            {
+                if(fiftyUsed==false){
+                    singleStat="20%";
+                }
+                else{
+                    if(buttonArr[i].getVisibility()==View.GONE) singleStat="0%";
+                    else singleStat="30%";
+
+                }
+
+
+            }
 
             statsArr[i]+=singleStat;
         }
@@ -201,7 +225,7 @@ public class QuestionFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),AlertDialog.THEME_HOLO_LIGHT);
 // 2. Chain together various setter methods to set the dialog characteristics
         builder.setMessage(result)
-                .setTitle("Audience results");
+                .setTitle(getResources().getString(R.string.audience_results));
 
 
 // 3. Get the AlertDialog from create()
@@ -213,12 +237,14 @@ public class QuestionFragment extends Fragment {
     public void useFiftyLifebelt() {
 
         //int pointer = question.getCorrectAnswerPointer();
+        fiftyUsed=true;
         Button[]arr =  {answerAButton,answerBButton,answerCButton,answerDButton};
         String correctAnswer =answerArr[question.getCorrectAnswerPointer()];
         int unvisibledCounter =0;
         for(int i=0;i<arr.length;i++){
             if((!arr[i].getText().equals(correctAnswer))&&unvisibledCounter<=1){
                 arr[i].setVisibility(View.GONE);
+
                 unvisibledCounter++;
             }
         }

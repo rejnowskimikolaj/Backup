@@ -67,7 +67,8 @@ public class LifeBeltFragment extends Fragment {
     public void useCallButton(){
         GameActivity gameActivity = (GameActivity)getActivity();
         this.callButton.setEnabled(false);
-        this.callButton.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.invisibleButtonColor));
+        this.callButton.setText("");
+        //this.callButton.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.invisibleButtonColor));
 
         gameActivity.useCallLifebelt();
     }
@@ -75,7 +76,8 @@ public class LifeBeltFragment extends Fragment {
     public void useAskButton(){
         GameActivity gameActivity = (GameActivity)getActivity();
         this.askButton.setEnabled(false);
-        this.askButton.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.invisibleButtonColor));
+        this.askButton.setText("");
+        //this.askButton.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.invisibleButtonColor));
 
         gameActivity.useAskLifebelt();
     }
@@ -83,7 +85,8 @@ public class LifeBeltFragment extends Fragment {
     public void useFiftyButton(){
         GameActivity gameActivity = (GameActivity)getActivity();
         this.fiftyButton.setEnabled(false);
-        this.fiftyButton.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.invisibleButtonColor));
+        this.fiftyButton.setText("");
+        //this.fiftyButton.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.invisibleButtonColor));
 
         gameActivity.useFiftyLifebelt();
     }
