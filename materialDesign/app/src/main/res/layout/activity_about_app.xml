@@ -10,8 +10,9 @@
     tools:context="pl.sdacademy.materialdesign.AboutApp">
 
     <android.support.design.widget.AppBarLayout
-        android:fitsSystemWindows="true"
         android:id="@+id/appBarLayout"
+
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -84,7 +85,6 @@
         android:id="@+id/aboutApp_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/fab_icon"
         android:tint="@android:color/white"
