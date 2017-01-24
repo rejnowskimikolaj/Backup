@@ -24,7 +24,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="360dp">
 
 
 
@@ -123,8 +123,10 @@
 
     <Button
         android:text="Sign up"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:id="@+id/signUp_button"
         android:layout_weight="1" />
 
