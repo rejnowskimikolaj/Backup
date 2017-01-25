@@ -23,6 +23,7 @@ public class AboutApp extends AppCompatActivity {
         setContentView(R.layout.activity_about_app);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.aboutApp_toolbar);
+        toolbar.setTitle("About app");
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
     }

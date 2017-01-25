@@ -61,20 +61,20 @@
             android:orientation="vertical">
 
             <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:gravity="left"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 android:text="Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView6" />
 
             <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:text="@string/lorem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView5" />
-
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

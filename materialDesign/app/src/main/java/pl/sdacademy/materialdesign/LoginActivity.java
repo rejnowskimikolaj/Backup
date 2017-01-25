@@ -15,6 +15,11 @@ import android.widget.FrameLayout;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String KEY_ACCOUNT_CREATED = "pl.sdacademy.materialdesign.LoginActivity.KEY_ACCOUNT_CREATED";
+    public static final String LOGIN_EMAIL = "pl.sdacademy.materialdesign.LoginActivity.LOGIN_EMAIL";
+    public static final String LOGIN_PASSWORD = "pl.sdacademy.materialdesign.LoginActivity.LOGIN_PASSWORD";
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +43,16 @@ public class LoginActivity extends AppCompatActivity {
                     loginInputLayout.setError(getString(R.string.empty_email_error));
                 }
 
-                if (TextUtils.isEmpty(passwordInput.getText().toString())) {
+                else if (TextUtils.isEmpty(passwordInput.getText().toString())) {
                     passwordInputLayout.setError(getString(R.string.empty_password_error));
+                }
+                else{
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                    intent.putExtra(LOGIN_EMAIL, emailInput.getText().toString());
+                    intent.putExtra(LOGIN_PASSWORD, passwordInput.getText().toString());
+
+                    startActivity(intent);
                 }
             }
         });

@@ -11,16 +11,13 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppThemeNoActionBar"
-            android:windowSoftInputMode="adjustResize">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".RegisterActivity"
             android:label="@string/new_account" />
-        <activity android:name=".AboutApp"
+        <activity
+            android:name=".AboutApp"
             android:theme="@style/AppThemeNoActionBar"
-            android:label="About app"
-
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             >
-
         </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
