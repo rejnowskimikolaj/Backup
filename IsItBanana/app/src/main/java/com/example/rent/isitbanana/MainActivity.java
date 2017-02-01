@@ -3,19 +3,27 @@ package com.example.rent.isitbanana;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,22 +46,23 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button chooseFromResButton;
-    Button makePhotoButton;
+
     Button uploadButton;
     ImageView imageView;
 
     Bitmap bitmap;
 
-
+    ProgressDialog progress;
     private static String accessToken;
     static final int REQUEST_GALLERY_IMAGE = 10;
     static final int REQUEST_CODE_PICK_ACCOUNT = 11;
@@ -62,55 +71,80 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_CAPTURE = 14;
     private final String LOG_TAG = "MainActivity";
     Account mAccount;
-    Button button;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getColor(R.color.white));
+        setSupportActionBar(toolbar);
+
+
+
         imageView = (ImageView) findViewById(R.id.main_imageView);
-        chooseFromResButton = (Button) findViewById(R.id.main_choose_button);
-        chooseFromResButton.setOnClickListener(new View.OnClickListener() {
+        imageView.setImageDrawable(getDrawable(R.drawable.bananaman));
+        bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+
+//        uploadButton=(Button) findViewById(R.id.main_upload_button);
+//        uploadButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                try {
+//                    Bitmap bitmapToSend = resizeBitmap(bitmap);
+//                    callCloudVision(bitmapToSend);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchImagePicker();
-            }
-        });
-
-
-        makePhotoButton =(Button) findViewById(R.id.main_makePhoto_button);
-        makePhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchCamera();
-            }
-        });
-
-
-        uploadButton=(Button) findViewById(R.id.main_upload_button);
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
                 try {
-                    callCloudVision(bitmap);
+                    progress = ProgressDialog.show(MainActivity.this,"","Hold on for a second",true);
+                    Bitmap bitmapToSend = resizeBitmap(bitmap);
+                    callCloudVision(bitmapToSend);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
+
+
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.GET_ACCOUNTS},
                 REQUEST_PERMISSIONS);
 
-
-
-
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_gallery:
+                launchImagePicker();
+                break;
+            case R.id.action_makePhoto:
+                launchCamera();
+
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -131,15 +165,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_GALLERY_IMAGE && resultCode == RESULT_OK && data != null) {
-          //  uploadImage(data.getData());
 
             updateBitmap(data.getData());
 
         } else if (requestCode == REQUEST_CODE_PICK_ACCOUNT) {
             if (resultCode == RESULT_OK) {
+
                 String email = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                 AccountManager am = AccountManager.get(this);
-
 
                try{
                    Account[] accounts = am.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
@@ -186,13 +219,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateBitmap(Uri uri){
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-            imageView.setImageBitmap(bitmap);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        bitmap=getRotatedBitmap(uri);
+        // Bitmap bitmap=rotateBitmap(uri);
+        imageView.setImageBitmap(bitmap);
+
     }
 
     public void launchCamera(){
@@ -201,20 +232,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public void uploadImage(Uri uri) {
-        if (uri != null) {
-            try {
-                Bitmap bitmap = resizeBitmap(
-                        MediaStore.Images.Media.getBitmap(getContentResolver(), uri));
-                callCloudVision(bitmap);
-            } catch (IOException e) {
-                Log.e(LOG_TAG, e.getMessage());
-            }
-        } else {
-            Log.e(LOG_TAG, "Null image was returned.");
-        }
-    }
     private void getAuthToken() {
         String SCOPE = "oauth2:https://www.googleapis.com/auth/cloud-platform";
         if (mAccount == null) {
@@ -234,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onTokenReceived(String token){
         accessToken = token;
-        //launchImagePicker();
         Log.d("OnTokenRecieved:", "token: "+token);
         Toast.makeText(this,"Token Recieved",Toast.LENGTH_SHORT).show();
 
@@ -293,11 +309,14 @@ public class MainActivity extends AppCompatActivity {
 
                     Vision.Images.Annotate annotateRequest =
                             vision.images().annotate(batchAnnotateImagesRequest);
-                    // Due to a bug: requests to Vision API containing large images fail when GZipped.
+                    // Due to a bug: requests to Vision
+                    // API containing large images fail when GZipped.
                     annotateRequest.setDisableGZipContent(true);
                     Log.d(LOG_TAG, "sending request");
 
                     BatchAnnotateImagesResponse response = annotateRequest.execute();
+                    Log.d(LOG_TAG, "got response");
+
                     return convertResponseToString(response);
 
                 } catch (GoogleJsonResponseException e) {
@@ -309,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(String result) {
+                progress.dismiss();
                 Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
                 Log.d("AsyncTask", "onPostExecute: "+result);
 
@@ -395,5 +415,49 @@ public class MainActivity extends AppCompatActivity {
         byte[] imageBytes = byteArrayOutputStream.toByteArray();
         image.encodeContent(imageBytes);
         return image;
+    }
+
+
+    public Bitmap getRotatedBitmap(Uri uri){
+
+        Bitmap source = null;
+        try {
+            source = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+
+            ExifInterface exif = null;
+
+                Log.d("VERSION", "getRotatedBitmap: ");
+               // exif = new ExifInterface(getContentResolver().openInputStream(uri));
+
+                exif = new ExifInterface(uri.getPath());
+                int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                int rotationInDegrees = exifToDegrees(rotation);
+                Matrix matrix = new Matrix();
+                if (rotation != 0f) {
+                    matrix.preRotate(rotationInDegrees);
+                }
+
+                return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+
+
+
+        } catch (IOException e) {
+            Log.d("MAIN_ACTIVITY", "getRotatedBitmap:  didnt work ");
+        }
+
+        return source;
+
+
+    }
+
+    private static int exifToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
+        return 0;
     }
 }
