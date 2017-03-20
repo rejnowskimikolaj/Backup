@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
@@ -26,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,19 +47,24 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 public class MainActivity extends AppCompatActivity {
 
 
-    Button uploadButton;
     ImageView imageView;
 
     Bitmap bitmap;
@@ -87,19 +94,6 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageDrawable(getDrawable(R.drawable.bananaman));
         bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
 
-//        uploadButton=(Button) findViewById(R.id.main_upload_button);
-//        uploadButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                try {
-//                    Bitmap bitmapToSend = resizeBitmap(bitmap);
-//                    callCloudVision(bitmapToSend);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,10 +134,54 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_makePhoto:
                 launchCamera();
+                break;
+            case R.id.action_downloadPhoto:
+                onDownloadPictureOptionsItemSelected();
+
 
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onDownloadPictureOptionsItemSelected() {
+
+        AlertDialog dialog=null;
+        AlertDialog.Builder ab = new AlertDialog.Builder(this);
+        ab.setTitle("Download image");
+        final EditText input = new EditText(this);
+        input.setHint("Type your url here");
+        ab.setView(input);
+        ab.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                displayPictureFromUrl(input.getText().toString());
+
+            }
+        });
+
+        ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+
+        dialog=ab.create();
+        dialog.show();
+    }
+
+
+    private void displayPictureFromUrl(String url){
+
+        if(url.isEmpty()) return;
+
+        Picasso.with(this)
+                .load(url)
+                .fit()
+                .centerCrop()
+                .into(imageView);
+
     }
 
     @Override
@@ -220,8 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateBitmap(Uri uri){
 
-        bitmap=getRotatedBitmap(uri);
-        // Bitmap bitmap=rotateBitmap(uri);
+        bitmap=getBitmap(uri);
         imageView.setImageBitmap(bitmap);
 
     }
@@ -256,10 +293,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void onVisionApiResultFetched(String result){
+
+        if(result.contains("banana")){
+            result = "I think, that there is a banana on this picture. This is, what i see: \n"+result;
+        }
+        else{
+            result = "I don't see any banana in this picture. This is, what i found: \n"+result;
+        }
+
+        progress.dismiss();
+        Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
+        Log.d("AsyncTask", "onPostExecute: "+result);
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(MainActivity.this,R.style.AppTheme);
+        builder.setTitle("Results");
+        builder.setMessage(result);
+        builder.setPositiveButton("OK", null);
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+
+
+    }
+
 
     private void callCloudVision(final Bitmap bitmap) throws IOException {
         Toast.makeText(this,"Retrieving results from cloud..",Toast.LENGTH_SHORT);
-        //resultTextView.setText("Retrieving results from cloud");
 
         new AsyncTask<Object, Void, String>() {
 
@@ -328,24 +388,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(String result) {
-                progress.dismiss();
-                Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
-                Log.d("AsyncTask", "onPostExecute: "+result);
 
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(MainActivity.this,R.style.AppTheme);
-                builder.setTitle("Results");
-                builder.setMessage(result);
-                builder.setPositiveButton("OK", null);
-                builder.setNegativeButton("Cancel", null);
-                builder.show();
+                onVisionApiResultFetched(result);
 
             }
         }.execute();
     }
 
     private String convertResponseToString(BatchAnnotateImagesResponse response) {
-        StringBuilder message = new StringBuilder("Results:\n\n");
+        StringBuilder message = new StringBuilder("\n");
         message.append("Labels:\n");
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
         if (labels != null) {
@@ -418,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public Bitmap getRotatedBitmap(Uri uri){
+    public Bitmap getBitmap(Uri uri){
 
         Bitmap source = null;
         try {
@@ -426,38 +477,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
 
-            ExifInterface exif = null;
-
-                Log.d("VERSION", "getRotatedBitmap: ");
-               // exif = new ExifInterface(getContentResolver().openInputStream(uri));
-
-                exif = new ExifInterface(uri.getPath());
-                int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                int rotationInDegrees = exifToDegrees(rotation);
-                Matrix matrix = new Matrix();
-                if (rotation != 0f) {
-                    matrix.preRotate(rotationInDegrees);
-                }
-
-                return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-
-
-
-        } catch (IOException e) {
-            Log.d("MAIN_ACTIVITY", "getRotatedBitmap:  didnt work ");
-        }
 
         return source;
 
 
     }
 
-    private static int exifToDegrees(int exifOrientation) {
-        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
-        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
-        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
-        return 0;
-    }
 }

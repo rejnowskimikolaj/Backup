@@ -1,0 +1,10 @@
+com\sda\rest\dao\UserLoginService.class
+com\sda\rest\servlets\RegisterServlet.class
+com\sda\rest\dao\ConversationService.class
+com\sda\rest\model\Message.class
+com\sda\rest\model\User.class
+com\sda\rest\model\LOGIN_RESULT.class
+com\sda\rest\dao\ChatUsersService.class
+com\sda\rest\HibernateSession.class
+com\sda\rest\servlets\ChatServlet.class
+com\sda\rest\servlets\ConversationServlet.class

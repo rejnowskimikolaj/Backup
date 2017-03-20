@@ -44,4 +44,6 @@ dependencies {
     compile ('com.google.http-client:google-http-client-gson:1.22.0') {
         exclude module: 'httpclient'
     }
+
+    compile group: 'com.squareup.picasso', name: 'picasso', version: '2.5.2'
 }
